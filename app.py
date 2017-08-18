@@ -1,12 +1,27 @@
 #!flask/bin/python
 
 from flask import Flask, jsonify, abort, make_response, request
+from flask_httpauth import HTTPBasicAuth
 import flightxml
+import apisecrets as API
 
 
 app = Flask(__name__)
 
 wx_obs = []
+
+auth = HTTPBasicAuth()
+
+@auth.get_password
+def get_password(username):
+    if username == 'guest':
+        return API.GUEST_PASSWORD
+    return None
+
+
+@auth.error_handler
+def unauthorized():
+    return make_response(jsonify({'error': 'Unauthorized access'}), 401)
 
 
 @app.errorhandler(404)
@@ -15,11 +30,13 @@ def not_found(error):
 
 
 @app.route('/av-data/api/v1.0/wx_obs', methods=['GET'])
+@auth.login_required
 def get_wx():
     return jsonify({'wx_obs': wx_obs})
 
 
 @app.route('/av-data/api/v1.0/wx_obs/<int:obs_id>', methods=['GET'])
+@auth.login_required
 def get_wx_obs(obs_id):
     wx = [obs for obs in wx_obs if obs['id'] == obs_id]
     if len(wx) == 0:
@@ -28,6 +45,7 @@ def get_wx_obs(obs_id):
 
 
 @app.route('/av-data/api/v1.0/wx_obs', methods=['POST'])
+@auth.login_required
 def create_wx_obs():
     if not request.json or not 'airport_code' in request.json:
         abort(400)
