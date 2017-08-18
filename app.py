@@ -29,12 +29,15 @@ def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 
+# TODO: Delete below function
 @app.route('/av-data/api/v1.0/wx_obs', methods=['GET'])
 @auth.login_required
 def get_wx():
     return jsonify({'wx_obs': wx_obs})
 
 
+
+# TODO: Delete below function
 @app.route('/av-data/api/v1.0/wx_obs/<int:obs_id>', methods=['GET'])
 @auth.login_required
 def get_wx_obs(obs_id):
