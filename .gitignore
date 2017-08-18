@@ -19,3 +19,6 @@ htmlcov
 .coverage
 .coverage.*
 *,cover
+
+# virtualenv
+/flask/*
