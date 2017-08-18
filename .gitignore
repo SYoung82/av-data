@@ -21,7 +21,7 @@ htmlcov
 *,cover
 
 # virtualenv
-/flask/*
+flask/
 
 #api secrets
 apisecrets.py
