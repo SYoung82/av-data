@@ -67,4 +67,4 @@ def create_wx_obs():
     return jsonify({'id': wx['id'], 'wx_obs': wx['ob']})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=33507)
