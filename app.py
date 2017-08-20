@@ -14,6 +14,7 @@ wx_obs = []
 
 auth = HTTPBasicAuth()
 
+
 @auth.get_password
 def get_password(username):
     if username == 'guest':
@@ -31,26 +32,7 @@ def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 
-# TODO: Delete below function
-@app.route('/av-data/api/v1.0/wx_obs', methods=['GET'])
-@auth.login_required
-def get_wx():
-    return jsonify({'wx_obs': wx_obs})
-
-
-
-# TODO: Delete below function
-@app.route('/av-data/api/v1.0/wx_obs/<int:obs_id>', methods=['GET'])
-@auth.login_required
-def get_wx_obs(obs_id):
-    wx = [obs for obs in wx_obs if obs['id'] == obs_id]
-    if len(wx) == 0:
-        abort(404)
-    return jsonify({'wx_obs': wx})
-
-
 @app.route('/av-data/api/v1.0/wx_obs', methods=['POST'])
-@auth.login_required
 def create_wx_obs():
     if not request.json or not 'airport_code' in request.json:
         abort(400)
