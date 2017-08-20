@@ -10,8 +10,6 @@ import apisecrets as API
 app = Flask(__name__)
 CORS(app)
 
-wx_obs = []
-
 auth = HTTPBasicAuth()
 
 
@@ -36,19 +34,25 @@ def not_found(error):
 def create_wx_obs():
     if not request.json or not 'airport_code' in request.json:
         abort(400)
-    if not wx_obs:
-        wx = {
-            'id': 0,
-            'ob': flightxml.get_airport_wx(request.json['airport_code'])
-        }
     else:
         wx = {
-            'id': wx_obs[-1]['id'] + 1,
             'ob': flightxml.get_airport_wx(request.json['airport_code'])
         }
 
-    wx_obs.append(wx)
-    return jsonify({'id': wx['id'], 'wx_obs': wx['ob']})
+    return jsonify({wx['ob']})
+
+
+@app.route('/av-data/api/v1.0/aircraft_enroute', methods=['POST'])
+def get_enroute_aircraft():
+    if not request.json or not 'airport_code' in request.json:
+        abort(400)
+    else:
+        aircraft = {
+            'aircraft': flightxml.get_enroute_aircraft(request.json['airport_code'])
+        }
+
+    return jsonify({aircraft['aircraft']})
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=33507)
