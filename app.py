@@ -39,7 +39,7 @@ def create_wx_obs():
             'ob': flightxml.get_airport_wx(request.json['airport_code'])
         }
 
-    return jsonify({wx['ob']})
+    return jsonify({'wx': wx['ob']})
 
 
 @app.route('/av-data/api/v1.0/aircraft_enroute', methods=['POST'])
@@ -51,7 +51,7 @@ def get_enroute_aircraft():
             'aircraft': flightxml.get_enroute_aircraft(request.json['airport_code'])
         }
 
-    return jsonify({aircraft['aircraft']})
+    return jsonify({'aircraft': aircraft['aircraft']})
 
 
 if __name__ == '__main__':
