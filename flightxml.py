@@ -28,6 +28,8 @@ def get_enroute_aircraft(airport_code):
         'type': 'enroute'
     }
 
+    response = requests.get(URI + 'AirportBoards', params=payload, auth=(USERNAME, KEY))
+
     if response.status_code == 200:
         return response.json()
     else:
