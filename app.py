@@ -2,11 +2,13 @@
 
 from flask import Flask, jsonify, abort, make_response, request
 from flask_httpauth import HTTPBasicAuth
+from flask_cors import CORS, cross_origin
 import flightxml
 import apisecrets as API
 
 
 app = Flask(__name__)
+CORS(app)
 
 wx_obs = []
 
