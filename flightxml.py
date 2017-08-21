@@ -34,3 +34,17 @@ def get_enroute_aircraft(airport_code):
         return response.json()
     else:
         return "There was an error retrieving the data from the server. {}".format(response.status_code)
+
+
+def get_departure_aircraft(airport_code):
+    payload = {
+        'airport_code': airport_code,
+        'type': 'departures'
+    }
+
+    response = requests.get(URI + 'AirportBoards', params=payload, auth=(USERNAME, KEY))
+
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return "There was an error retrieving the data from the server. {}".format(response.status_code)

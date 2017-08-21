@@ -54,5 +54,17 @@ def get_enroute_aircraft():
     return jsonify({'aircraft': aircraft['aircraft']})
 
 
+@app.route('/av-data/api/v1.0/aircraft_departures', methods=['POST'])
+def get_departure_aircraft():
+    if not request.json or not 'airport_code' in request.json:
+        abort(400)
+    else:
+        aircraft = {
+            'aircraft': flightxml.get_departure_aircraft(request.json['airport_code'])
+        }
+
+    return jsonify({'aircraft': aircraft['aircraft']})
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=33507)
