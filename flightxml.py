@@ -53,7 +53,7 @@ def get_departure_aircraft(airport_code):
 def get_arrival_aircraft(airport_code):
     payload = {
         'airport_code': airport_code,
-        'type': 'departures'
+        'type': 'arrivals'
     }
 
     response = requests.get(URI + 'AirportBoards', params=payload, auth=(USERNAME, KEY))
